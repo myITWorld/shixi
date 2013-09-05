@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.zoomkey.internship.persistence.model">
+    <class name="TUser" table="t_user" catalog="internship_yangyikui">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID_" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="NAME_" length="20" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="PASSWORD_" length="20" />
+        </property>
+        <property name="gender" type="java.lang.String">
+            <column name="GENDER_" length="1" />
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="STATUS_" length="1" />
+        </property>
+        <property name="age" type="java.lang.Integer">
+            <column name="AGE_" />
+        </property>
+        <property name="role" type="java.lang.Integer">
+            <column name="ROLE_" length="1" />
+        </property>
+        <property name="registerTime" type="java.lang.String">
+            <column name="REGISTER_TIME_" length="50" />
+        </property>
+        <property name="updateTime" type="java.lang.String">
+            <column name="UPDATE_TIME_" length="50" />
+        </property>
+        <property name="credits" type="java.lang.Integer">
+            <column name="CREDITS_" />
+        </property>
+        
+        <set name="TArticles" inverse="true" >
+            <key>
+                <column name="USER_ID_" />
+            </key>
+            <one-to-many class="TArticle" />
+        </set> 
+         
+    </class>
+</hibernate-mapping>

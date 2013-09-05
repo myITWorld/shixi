@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+		"http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+
+	<!-- ======================================== Form Bean Definitions -->
+
+	<form-beans>
+		<form-bean name="baseCustomerTypesForm" type="com.berheley.hcms.web.form.BaseCustomerTypesForm" />
+		<form-bean name="userForm"    type="com.zoomkey.internship.web.form.UserForm"></form-bean>
+		<form-bean name="sectionForm" type="com.zoomkey.internship.web.form.SectionForm"></form-bean>
+		<form-bean name="articleForm" type="com.zoomkey.internship.web.form.ArticleForm"></form-bean>
+	</form-beans>
+
+	<!-- ================================= Global Exception Definitions -->
+
+	<global-exceptions>
+
+
+
+	</global-exceptions>
+	<!-- =================================== Global Forward Definitions -->
+	<!-- modified by Wang Cheng 2011-1-26 [ZKP-115] begin -->
+	<global-forwards>
+		<forward name="fail" path="/jsp/common/500_2.jsp"></forward>
+	</global-forwards>
+	<!-- [ZKP-115] end -->
+
+
+
+	<!-- =================================== Action Mapping Definitions -->
+   
+	<action-mappings> 
+	
+		<action path="/article/queryArticleInfo" name="articleForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction" validate="false">
+		<description>文章信息信息查询</description>
+			<forward name="success" path="/jsp/manager/Menu.jsp"></forward>
+			<forward name="list" path="/jsp/article/articleManagement.jsp"></forward>
+		</action>
+		<action path="/article/queryArticleIndexInfo" name="articleForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction" validate="false">
+		<description>文章首页信息查询</description>
+			<forward name="success" path="/jsp/article/indexCenter.jsp"></forward> 
+		</action>
+		<action path="/article/queryArticleOfSectionInfo" name="articleForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction" validate="false">
+		<description>版块中的文章</description> 
+			<forward name="success" path="/jsp/article/articleDetail.jsp"></forward>
+		</action>
+	
+		<action path="/goToArticle" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction" validate="false">
+		<description>点击进入文章管理界面</description>
+			<forward name="success" path="/jsp/article/articleManagement.jsp"></forward>
+		</action> 
+		<action path="/publishArt" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction" validate="false">
+		<description>进入发表文章界面</description>
+			<forward name="success" path="/jsp/article/publishArticle.jsp"></forward>
+		</action> 
+		
+		<action path="/article/createArticle" name="articleForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction" validate="false">
+		<description>发文章</description>
+			<forward name="success" path="/jsp/article/articleManagement.jsp"></forward>
+			<forward name="list" path="/jsp/article/articleManagement.jsp"></forward>
+		</action>
+		
+		
+		
+		
+		<action path="/article/autiding" name="articleForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction"  validate="false">
+		<description>审核</description>
+		<forward name="success" path="/jsp/article/articleManagement.jsp"></forward>
+		</action>
+		
+		<action path="/article/changeEss" name="articleForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction"  validate="false">
+		<description>精华</description>
+		<forward name="success" path="/jsp/article/articleManagement.jsp"></forward>
+		</action>
+		
+		<action path="/article/setTop" name="articleForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction"  validate="false">
+		<description>置顶</description>
+		<forward name="success" path="/jsp/article/articleManagement.jsp"></forward>
+		</action>
+ 
+		<action path="/delArticleInfo" name="articleForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction"  validate="false">
+		<description>删除文章</description>
+		<forward name="success" path="/jsp/article/articleManagement.jsp"></forward>
+		</action>
+		
+		<action path="/article/articleDetailInfo" name="articleForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction"  validate="false">
+		<description>文章详细信息</description>
+		<forward name="success" path="/jsp/article/articleDetail.jsp"></forward>
+		</action>
+		
+		<action path="/article/updateArticleInfo" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction"  validate="false">
+		<description>修改文章信息</description>
+		<forward name="success" path="/jsp/article/publishArticle.jsp"></forward>
+		</action>
+		
+		<action path="/article/articleAndSection" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction"  validate="false">
+		<description>树形信息</description>
+		<forward name="success" path="/index.jsp"></forward>
+		</action>
+		<action path="/article/showArticle" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction"  validate="false">
+		<description>树形信息</description>
+		<forward name="success" path="/jsp/article/indexCenter.jsp"></forward>
+		</action>
+		<action path="/article/setTop" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.ArticleAction"  validate="false">
+		<description>树形信息</description>
+		<forward name="success" path="/jsp/article/indexLeft.jsp"></forward>
+		</action>
+		
+		
+		
+		
+	 
+	</action-mappings>
+	
+	<message-resources
+		parameter="com.zoomkey.resources.ApplicationResource" />
+		
+		
+</struts-config>
+

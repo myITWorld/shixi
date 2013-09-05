@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="csvDisplayProvider"   class="net.mlw.vlh.web.tag.support.CsvDisplayProvider"/>
+    <bean id="excelDisplayProvider" class="net.mlw.vlh.web.tag.support.ExcelDisplayProvider"/>
+
+    <bean id="microsoftLook" singleton="true" class="net.mlw.vlh.web.ValueListConfigBean">
+    	<property name="displayHelper"><bean class="net.mlw.vlh.web.util.ImagesHomeDisplayHelper" /></property>
+    	<property name="messageSource">
+     		<bean class="org.springframework.context.support.ResourceBundleMessageSource">
+        		<property name="basename"><value>com.berheley.oa.project.resources.microsoftLook</value></property>                    
+      		</bean>
+    	</property>
+
+    	<property name="linkEncoder">
+     		<bean class="net.mlw.vlh.web.tag.support.DefaultLinkEncoder" >
+      			<property name="encoding">
+      				<value>UTF-8</value>
+      			</property>
+     		</bean>
+    	</property>
+
+    	<property name="stylePrefix"><value>microsoftLook</value></property>
+
+    	<property name="displayProviders">
+     		<map>
+        		<entry key="html">
+          			<bean class="net.mlw.vlh.web.tag.support.HtmlDisplayProvider">
+            			<property name="imageHome"><value>skins/style_1/images/valuelist</value></property>
+            			<property name="usePadding"><value>false</value></property>
+            			<property name="useNoWrap"><value>false</value></property>
+						<property name="preAppendContextPath"><value>true</value></property>
+          			</bean>
+       	     	</entry>
+        		<entry key="csv"><ref bean="csvDisplayProvider" /></entry>
+        		<entry key="excel"><ref bean="excelDisplayProvider" /></entry>
+      		</map>
+    	</property>  
+  	</bean>
+  	<!-- 
+	<bean id="sqlPagingSupport" class="net.mlw.vlh.adapter.jdbc.util.SqlPagingSupport">
+		<property name="database"><value>mysql</value></property>
+	</bean>
+	 -->
+	<bean id="integerSetterHql" class="net.mlw.vlh.adapter.hibernate3.util.setter.IntegerSetter"></bean>
+	<bean id="doubleSetterHql" class="net.mlw.vlh.adapter.hibernate3.util.setter.DoubleSetter"></bean>
+	<bean id="statementBuilderHql" class="net.mlw.vlh.adapter.hibernate3.util.StatementBuilder">
+		<!-- [wiki1]如果不进行转型，则hql中会造成占位符类型与传递的参数类型不符而报错 -->
+  		<property name="setters">
+  			<map>
+  				<!-- 角色id -->
+  				<entry key="ugRoleId"><ref bean="integerSetterHql"/></entry>
+  				<!-- 系统用户id -->
+  				<entry key="userId"><ref bean="integerSetterHql"/></entry>
+  				<!-- 缴费记录id -->
+  				<entry key="Id"><ref bean="integerSetterHql"/></entry>
+  			</map>
+  		</property>
+  	</bean>
+	<bean id="abstractHibernate30Adapter" abstract="true"   class="net.mlw.vlh.adapter.hibernate3.HibernateAdapter">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+        <property name="defaultSortColumn">
+            <value>id</value>
+        </property>
+        <property name="defaultSortDirection">
+            <value>desc</value>
+        </property>
+        <property name="defaultNumberPerPage">
+        	<value>100</value>
+        </property>
+    </bean>
+    
+	<bean id="abstractSimpleHashMapAdapter" abstract="true"   class="com.zoomkey.components.valuelist.SimpleHashMapAdapter">
+       	<property name="dataSource"><ref bean="dataSource"/></property>   
+         <property name="defaultNumberPerPage"><value>20</value></property>
+         <property name="defaultSortColumn"><value>ID_</value></property>  
+         <property name="defaultSortDirection"><value>desc</value></property> 
+    </bean>
+	
+	<bean id="valueListHandler" singleton="true" class="net.mlw.vlh.DefaultValueListHandlerImpl">
+   		<property name="config.adapters">
+   		<!-- 查询用户信息 -->
+        	<map>     
+        	   <entry key="userHibernateAdapter">
+                    <bean  parent="abstractSimpleHashMapAdapter"> 
+                       <property name="sql">
+                           <value>
+                               SELECT tu.id_ as id,tu.name_ as name,(case when tu.status_ ='1' then '正常' when tu.status_ != '1' then '屏蔽' end) as status,tu.register_time_ as registerTime, ifnull(ts.section_name_,'否') as  isBm,
+                               (case when tu.role_='2' then '是' when tu.role_ = 0 then '否' when tu.role_="1" then '否' end) as isManager 
+                               FROM t_user tu  left join t_section ts on tu.id_ = ts.user_id_ 
+                               WHERE 1=1 
+                               /~name: AND tu.name_ like CONCAT('%',trim({name}),'%') ~/  
+                               ORDER BY tu.register_time_+0 asc
+                           </value>
+                       </property>
+                   </bean>
+               </entry>
+               <!-- 查询版块信息 -->
+        	   <entry key="sectionHibernateAdapter">
+                    <bean  parent="abstractSimpleHashMapAdapter"> 
+                       <property name="sql">
+                           <value> 
+                           <!-- FIXME:sql语句需要有适当换行 -->
+                             SELECT ts.id_ AS id,ts.section_name_ AS sectionName,tu.name_ AS username ,ts.create_time_ AS createTime,
+                             (CASE WHEN ts.IS_AUDITING_='1' THEN '是' WHEN ts.IS_AUDITING_ =0 THEN '否' END) AS isAuditing  ,ts.visit_credits_ AS visitCredits 
+                             FROM t_section ts
+                             LEFT JOIN t_user tu ON tu.ID_=ts.USER_ID_ 
+                             WHERE ts.status_=1 
+                         	  /~userId:AND  ts.USER_ID_ = {userId} ~/  
+                             /~sectionName: AND ts.section_name_ like CONCAT('%',trim({sectionName}),'%') ~/  
+                             ORDER BY ts.create_time_+0 asc
+                           </value>
+                       </property>
+                   </bean>
+               </entry>
+	  
+               <!-- 查询文章信息 -->
+        	   <entry key="articleHibernateAdapter">
+                    <bean  parent="abstractSimpleHashMapAdapter"> 
+                       <property name="sql">
+                           <value> 
+                           SELECT ta.ID_ AS id, ta.TITLE_ AS title,tu.NAME_ AS author,ts.SECTION_NAME_ AS sectionName,
+                           (CASE WHEN ta.IS_AUDITING_='1' THEN '是' WHEN ta.IS_AUDITING_ =0 THEN '否' END) AS isAuditing ,ta.UPDATE_TIME_ AS updateTime, ta.ARTICLE_LABEL_ AS articleLabel,
+                           (CASE WHEN ta.IS_ESSENCE_='1' THEN '是' WHEN ta.IS_ESSENCE_ =0 THEN '否' END) AS isEssence,(CASE WHEN ta.IS_TOP_='1' THEN '是' WHEN ta.IS_TOP_ =0 THEN '否' END) AS isTop
+									FROM t_article ta 
+									LEFT JOIN t_user tu ON tu.ID_=ta.USER_ID_
+									LEFT JOIN t_section ts ON ts.ID_=ta.SECTION_ID_
+									WHERE ta.STATUS_=1 
+								   /~userId:AND  ts.USER_ID_ = {userId} ~/  
+									/~username:AND tu.NAME_ LIKE CONCAT('%',trim({username}),'%')~/
+									/~title:AND ta.TITLE_ LIKE CONCAT('%',trim({title}),'%')~/
+									/~sectionName:AND ts.SECTION_NAME_ LIKE CONCAT('%',trim({sectionName}),'%')~/ 
+                           ORDER BY ta.IS_TOP_ desc, ta.IS_ESSENCE_ desc
+                           </value>
+                       </property>
+                   </bean>
+               </entry>
+               <!-- 查询首页文章信息 -->
+        	   <entry key="articleIndexHibernateAdapter">  
+        	    <bean  parent="abstractSimpleHashMapAdapter"> 
+                                     <property name="sql">                        
+                           <value> 
+                           SELECT ta.ID_ AS id,ta.USER_ID_ AS userId, ta.SECTION_ID_ AS sectionId,ts.USER_ID_ AS sectioner,ts.VISIT_CREDITS_ AS credits, ta.TITLE_ AS title,tu.NAME_ AS author,ts.SECTION_NAME_ AS sectionName,ta.CREATE_TIME_ AS createTime,ta.UPDATE_TIME_ AS updateTime, 
+                           (CASE WHEN ta.IS_ESSENCE_='1' THEN '是' WHEN ta.IS_ESSENCE_ =0 THEN '否' END) AS isEssence,(CASE WHEN ta.IS_TOP_='1' THEN '是' WHEN ta.IS_TOP_ =0 THEN '否' END) AS isTop
+									FROM t_article ta 
+									LEFT JOIN t_user tu ON tu.ID_=ta.USER_ID_
+									LEFT JOIN t_section ts ON ts.ID_=ta.SECTION_ID_
+									WHERE ta.STATUS_=1 AND ta.IS_AUDITING_=1
+									/~sectionId:AND  ta.SECTION_ID_ = {sectionId} ~/ 
+									/~content:AND ta.TITLE_ LIKE CONCAT('%',trim({content}),'%')~/
+									/~content:OR tu.NAME_ LIKE CONCAT('%',trim({content}),'%')~/
+									/~content:OR ta.ARTICLE_LABEL_ LIKE CONCAT('%',trim({content}),'%')~/ 
+									/~content:OR ta.ARTICLE_CONTENT_ LIKE CONCAT('%',trim({content}),'%')~/ 
+                           ORDER BY ta.IS_TOP_ desc, ta.IS_ESSENCE_ desc
+                           </value>
+                       </property>
+                   </bean>
+               </entry>
+               <!-- 查询某版块下文章信息 -->
+        	   <entry key="sarticleHibernateAdapter">
+                    <bean  parent="abstractSimpleHashMapAdapter"> 
+                       <property name="sql">
+                           <value> 
+                          SELECT ta.ID_ AS id, ta.TITLE_ AS title,tu.NAME_ AS author,ts.SECTION_NAME_ AS sectionName,(CASE WHEN ta.IS_AUDITING_='1' THEN '是' WHEN ta.IS_AUDITING_ =0 THEN '否' END) AS isAuditing ,
+                          ta.UPDATE_TIME_ AS updateTime, ta.ARTICLE_LABEL_ AS articleLabel,(CASE WHEN ta.IS_ESSENCE_='1' THEN '是' WHEN ta.IS_ESSENCE_ =0 THEN '否' END) AS isEssence,(CASE WHEN ta.IS_TOP_='1' THEN '是' WHEN ta.IS_TOP_ =0 THEN '否' END) AS isTop
+									FROM t_article ta 
+									LEFT JOIN t_user tu ON tu.ID_=ta.USER_ID_
+									LEFT JOIN t_section ts ON ts.ID_=ta.SECTION_ID_
+									WHERE ta.STATUS_=1 
+									/~sectionId:AND  ta.SECTION_ID_ = {sectionId} ~/ 
+                           ORDER BY ta.IS_TOP_ desc, ta.IS_ESSENCE_ desc
+                           </value>
+                       </property>
+                   </bean>
+               </entry>
+	  
+	  	    </map>
+		</property>
+   </bean>
+   
+ 
+   <bean id="valueListHelper" singleton="true" class="net.mlw.vlh.web.mvc.ValueListHandlerHelper">
+		<property name="valueListHandler">
+			<ref bean="valueListHandler"/>
+		</property>
+   </bean>
+  
+</beans>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.zoomkey.internship.persistence.model">
+    <class name="TSection" table="t_section" catalog="internship_yangyikui">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID_" />
+            <generator class="native" />
+        </id> 
+        <property name="userId" type="java.lang.Integer">
+        	   <column name="USER_ID_" length="10" />
+        </property>
+        <property name="sectionName" type="java.lang.String">
+            <column name="SECTION_NAME_" length="50" />
+        </property>
+        <property name="sectionIntro" type="java.lang.String">
+            <column name="SECTION_INTRO_" length="100" />
+        </property>
+        <property name="isAuditing" type="java.lang.Integer">
+            <column name="IS_AUDITING_" />
+        </property>
+        <property name="createTime" type="java.lang.String">
+            <column name="CREATE_TIME_" length="50" />
+        </property>
+        <property name="updateTime" type="java.lang.String">
+            <column name="UPDATE_TIME_" length="50" />
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="STATUS_" length="1" />
+        </property>
+         <property name="visitCredits" type="java.lang.Integer">
+            <column name="VISIT_CREDITS_" />
+        </property>
+        
+    </class>
+</hibernate-mapping>
+

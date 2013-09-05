@@ -1,0 +1,20 @@
+/AreaInfo.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/AreasSpecialInfo.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/BatchCreateCustomerInfo.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/BuildingInfo.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/ChargeStatInfo.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/ConditionInfo.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/ConstantLogOperator.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/CusBatchInfo.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/HouseInfo.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/IAdminMaySetObj.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/IDeletableObj.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/IGenerateCreateTime.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/IGenerateCreatorId.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/IModifiableObj.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/IPrimaryKey.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/IntegrateQueryKey.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/IntegrateQueryOperation.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/SqlDateConvertor.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+/UnicodeReader.java/1.1/Tue May  7 02:00:51 2013//Tinternship_yangyikui
+D/query////

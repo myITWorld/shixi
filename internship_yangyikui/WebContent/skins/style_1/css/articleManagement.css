@@ -1,0 +1,10 @@
+@charset "utf-8";
+/* CSS Document */
+*{ margin:0; border:0}
+html{ overflow:hidden}   
+#name,#title,#sectionName,#content{ width:120px; height:25px; line-height:25px} 
+.btn{  font-weight:bold; background-image:url(../images/104.gif); }
+.btn_over{ background-color:#c3daf9; background:url(../images/83.gif);}
+table tr td{ font-size:14px}
+#createArticleWindow .areaSpan{background: url(../images/icon/house.png) no-repeat 3px 0px;}
+ 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+		"http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+
+	<!-- ======================================== Form Bean Definitions -->
+
+	<form-beans>
+		<form-bean name="baseCustomerTypesForm" type="com.berheley.hcms.web.form.BaseCustomerTypesForm" />
+		<form-bean name="userForm"    type="com.zoomkey.internship.web.form.UserForm"></form-bean>
+		<form-bean name="sectionForm" type="com.zoomkey.internship.web.form.SectionForm"></form-bean>
+	</form-beans>
+
+	<!-- ================================= Global Exception Definitions -->
+
+	<global-exceptions>
+
+
+
+	</global-exceptions>
+	<!-- =================================== Global Forward Definitions -->
+	<!-- modified by Wang Cheng 2011-1-26 [ZKP-115] begin -->
+	<global-forwards>
+		<forward name="fail" path="/jsp/common/500_2.jsp"></forward>
+	</global-forwards>
+	<!-- [ZKP-115] end -->
+
+
+
+	<!-- =================================== Action Mapping Definitions -->
+   
+	<action-mappings> 
+	
+		<action path="/section/querySectionInfo" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.SectionAction" validate="false">
+		<description>版块信息查询</description>
+			<forward name="success" path="/jsp/manager/Menu.jsp"></forward>
+			<forward name="list" path="/jsp/section/sectionManagement.jsp"></forward>
+		</action>
+	
+		<action path="/goToSection" name="userForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.SectionAction" validate="false">
+		<description>点击版块管理进入界面</description>
+			<forward name="success" path="/jsp/section/sectionManagement.jsp"></forward>
+		</action>
+		<action path="/section/createSection" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.SectionAction" validate="false">
+		<description>创建版块</description>
+			<forward name="success" path="/jsp/manager/Menu.jsp"></forward>
+			<forward name="list" path="/jsp/section/sectionManagement.jsp"></forward>
+		</action>
+		
+		<action path="/delSectionInfo" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.SectionAction"  validate="false">
+		<description>删除版块</description>
+		<forward name="success" path="/jsp/section/sectionManagement.jsp"></forward>
+		</action>
+		
+		<action path="/section/updateSection" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.SectionAction"  validate="false">
+		<description>修改版块</description>
+		<forward name="success" path="/jsp/section/sectionManagement.jsp"></forward> 
+		</action>
+		<action path="/section/updateSectionInfo" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.SectionAction"  validate="false">
+		<description>右键进入修改版块页面</description>
+		<forward name="success" path="/jsp/section/updateSection.jsp"></forward> 
+		<forward name="back" path="/index.jsp"></forward> 
+		</action>
+	</action-mappings>
+	
+	<message-resources
+		parameter="com.zoomkey.resources.ApplicationResource" />
+		
+		
+</struts-config>
+

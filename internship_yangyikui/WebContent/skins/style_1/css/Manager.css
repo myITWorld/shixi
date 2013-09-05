@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+*{ margin:0; border:0}
+html{ overflow:hidden}
+#body{ width:1366px; height:500px; border:2px solid #09F; margin-top:20px; border-bottom-style:double}
+#left{ width:150px; height:500px; float:left; background:#D4E2F4}
+table{ margin-left:30px}
+#right{ width:1141px ; height:500px; float:right;border:1px solid red  }
+#right_top{ width:1141px; height:40px; border:1px solid #09F; margin-top:5px}

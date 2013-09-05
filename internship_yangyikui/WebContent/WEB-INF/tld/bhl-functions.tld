@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+		version="2.0">
+	<description>Berheley functions library</description>
+	<display-name>Berheley Functions</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>bfn</short-name>
+	<uri>http://dev.berheley.com/jsp/tld/functions</uri>
+
+	<function>
+		<description>Encodes some String with the given encoding.</description>
+		<name>encodeString</name>
+		<function-class>com.berheley.oa.project.web.tag.Functions</function-class>
+		<function-signature>java.lang.String encodeString(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${bfn:encodeString(name, 'UTF-8')}"/&gt;
+		</example>
+	</function>
+
+	<function>
+		<description>Tests if an object exists in the specified collection.</description>
+		<name>isObjectInCollection</name>
+		<function-class>com.berheley.oa.project.web.tag.Functions</function-class>
+		<function-signature>boolean isObjectInCollection(java.lang.Object, java.util.Collection)</function-signature>
+		<example>
+			&lt;c:if value="${bfn:isObjectInCollection(obj, collection)}"&gt;blahblahblah&lt;/c:if&gt;
+		</example>
+	</function>
+
+	<function>
+		<description>Tests if an object is a key of the specified Map object.</description>
+		<name>isMapHasKey</name>
+		<function-class>com.berheley.oa.project.web.tag.Functions</function-class>
+		<function-signature>boolean isMapHasKey(java.util.Map, java.lang.Object)</function-signature>
+		<example>
+			&lt;c:if value="${bfn:isMapHasKey(obj, map)}"&gt;blahblahblah&lt;/c:if&gt;
+		</example>
+	</function>
+
+	<function>
+		<description>Tests if an object is a value of the specified Map object.</description>
+		<name>isMapHasValue</name>
+		<function-class>com.berheley.oa.project.web.tag.Functions</function-class>
+		<function-signature>boolean isMapHasValue(java.util.Map, java.lang.Object)</function-signature>
+		<example>
+			&lt;c:if value="${bfn:isMapHasValue(obj, map)}"&gt;blahblahblah&lt;/c:if&gt;
+		</example>
+	</function>
+
+	<function>
+		<description>Returns Math.abs() operation result on the given parameter.</description>
+		<name>abs</name>
+		<function-class>com.berheley.oa.project.web.tag.Functions</function-class>
+		<function-signature>java.lang.Number abs(java.lang.Number)</function-signature>
+		<example>
+			&lt;c:if value="${bfn:abs(num) > 123}"&gt;blahblahblah&lt;/c:if&gt;
+		</example>
+	</function>
+	
+	<function>
+		<description>更好地显示句子的长度，解决中、英文长度不一致的问题，中文算一个长度，英文算半个，不到一个算一个</description>
+		<name>length</name>
+		<function-class>com.berheley.oa.project.web.tag.Functions</function-class>
+		<function-signature>int length(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${bfn:length(name)}"/&gt;
+		</example>
+	</function>
+	
+	
+	<function>
+		<description>从句子中获取，到第index个长度的字符串，英文字符算半个，因为在页面上显示占位符才半个.</description>
+		<name>substring</name>
+		<function-class>com.berheley.oa.project.web.tag.Functions</function-class>
+		<function-signature>java.lang.String substring(java.lang.String, int, int)</function-signature>
+		<example>
+			&lt;c:out value="${bfn:substring(name, index1, index2)}"/&gt;
+		</example>
+	</function>
+	
+	<function>
+		<description>从句子中获取，到第index个长度的字符串，英文字符算半个，干脆直接在标签里完成加省略号的功能，省得再到页面上判断，然后加省略号.</description>
+		<name>subcontent</name>
+		<function-class>com.berheley.oa.project.web.tag.Functions</function-class>
+		<function-signature>java.lang.String subcontent(java.lang.String, int)</function-signature>
+		<example>
+			&lt;c:out value="${bfn:subcontent(name, index1)}"/&gt;
+		</example>
+	</function>
+</taglib>

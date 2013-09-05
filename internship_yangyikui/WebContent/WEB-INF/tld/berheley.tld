@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>BerheleyTag</short-name>
+	<uri>http://www.berheley.com/berheleyTag</uri>
+	<description>
+       
+	</description>
+
+	<tag>
+		<name>dTreeTag</name>
+		<tag-class>com.berheley.oa.project.web.tag.DTreeDisplayTag</tag-class>
+		<description>
+            
+		</description>
+		
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+               radio在表单中的名称
+			</description>
+		</attribute>
+		
+		<attribute>
+			<name>menuService</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+               获得树装结构的BO
+			</description>
+		</attribute>
+		<attribute>
+			<name>rootIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>folderIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>folderOpenIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>nodeIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>emptyIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>lineIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>joinIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>joinBottomIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>plusIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>plusBottomIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>minusIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>minusBottomIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>nlPlusIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		<attribute>
+			<name>nlMinusIcon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+	</tag>
+	
+	
+	
+	<tag>
+		<name>menuTag</name>
+		<tag-class>com.berheley.oa.project.web.tag.MenuTag</tag-class>
+		<body-content>jsp</body-content>
+		<description> </description>
+
+		<attribute>
+			<name>menuService</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+		
+		<attribute>
+			<name>parentMenuCode</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description></description>
+		</attribute>
+		
+		<attribute>
+			<name>isTopMenu</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>判断是否是一级目录,默认为false</description>
+		</attribute>
+		
+		<attribute>
+			<name>curUserID</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>过滤某特定用户的菜单</description>
+		</attribute>
+		
+	</tag>
+	
+	
+	<tag>
+		<name>panelTag</name>
+		<tag-class>com.berheley.oa.project.web.tag.CustomerPanelTag</tag-class>
+		<body-content>jsp</body-content>
+		<description> </description>
+
+		<attribute>
+			<name>panelBO</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description></description>
+		</attribute>
+		
+		<attribute>
+			<name>curUserId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用户id</description>
+		</attribute>
+		
+		<attribute>
+			<name>showPersonal</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>显示个性化快捷面板, 默认值为true</description>
+		</attribute>
+		
+		<attribute>
+            <name>showSys</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>showSys默认值为null, 根据showPersonal值显示全部个性化快捷面板或系统快捷面板和自定义快捷面板的和;如果showPersonal值为true, showSys为true则显示个性化快捷面板中的系统快捷面板, 为false显示个性化快捷面板中的自定义快捷面板</description>
+        </attribute>
+        
+        <attribute>
+            <name>exceptPersonal</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>exceptPersonal默认值为false, 不去除个性化快捷面板中的集合, 如果exceptPersonal值为true, showSys为true则显示系统快捷面板中不包括个性化快捷面板中的系统面板, showSys为false显示自定义面板中不包括个性化快捷面板中的自定义面板</description>
+        </attribute>
+	</tag>
+	
+	<tag>
+		<name>fileIteratorTag</name>
+		<tag-class>com.berheley.oa.project.web.tag.FileIteratorTag</tag-class>
+		<body-content>jsp</body-content>
+		<description> </description>
+
+		<attribute>
+			<name>relContextPath</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description></description>
+		</attribute>
+		
+	</tag>
+</taglib>

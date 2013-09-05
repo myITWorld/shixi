@@ -1,0 +1,462 @@
+ 
+/**
+ *  给gridpanel加链接
+ * */
+function showUrl(value) {
+	return '<a href="javascript:void(0)" onclick="showDetail()" style="color:blue;" onmouseover="this.style.color=\'red\'" onmouseout="this.style.color=\'blue\'">'
+			+ value + '</a>';
+}
+
+/**
+ * 精华
+ * */ 
+function showEsss(value) {
+	if (value == "是") {
+		return "<img alt='精华' src='" + context + "/skins/style_1/images/icon/jinghua.png'>";
+	} else {
+		return "否";
+	}
+}
+
+/**
+ * 置顶
+ * */ 
+function showTop(value) {
+	if (value == "是") {
+		return "<img alt='精华' src='" + context + "/skins/style_1/images/icon/zhiding.png'>";
+	} else {
+		return "否";
+	}
+}
+
+Ext.BLANK_IMAGE_URL = context + "/js/ext/resources/images/default/s.gif";
+/**
+ * 查询文章信息Store
+ * */
+// FIXME:js文件提交前需要格式化
+// FIXME:方法注释应使用块注释
+/**
+ * 
+ *  给gridpanel加链接
+ * */
+function showUrl(value){ 
+	 return '<a href="javascript:void(0)" onclick="showDetail()" style="color:blue;" onmouseover="this.style.color=\'red\'" onmouseout="this.style.color=\'blue\'">'+value+'</a>';
+}	
+
+/**
+ *  精华
+ * */
+function showEsss(value){ 
+	  if (value == "是") {
+				return "<img alt='精华' src='" + context + "/skins/style_1/images/icon/jinghua.png'>";
+			} else {
+				return "否";
+			} 
+  }
+  
+/**
+ * 置顶
+ * */ 
+function showTop(value){ 
+		  if (value == "是") {
+					return "<img alt='精华' src='" + context + "/skins/style_1/images/icon/zhiding.png'>";
+				} else {
+					return "否";
+				} 
+   }
+ 
+// FIXME:应使用padUrl
+	Ext.BLANK_IMAGE_URL = padUrl("/js/ext/resources/images/default/s.gif"); 
+	
+/**
+ * 查询文章信息Store 
+ * */
+var pageSize = 20;
+var store = new Ext.data.JsonStore({
+	url : padUrl("/article/queryArticleOfSectionInfo.ao?method=getArticleOfSectionInfo"),
+	root : 'root',
+	method : 'post',
+	totalProperty : 'totalProperty',
+	fields : ['id', 'title', 'author', 'sectionName', 'isAuditing', 'updateTime', 'articleLabel', 'isEssence', 'isTop']
+});
+
+var sm = new Ext.grid.CheckboxSelectionModel();
+var cm = new Ext.grid.ColumnModel([sm, {
+	header : '文章标题',
+	dataIndex : 'title',
+	width : 140,
+	align : 'center',
+	renderer : showUrl
+}, {
+	header : '作者',
+	dataIndex : 'author',
+	width : 130,
+	align : 'center'
+}, {
+	header : '版块',
+	dataIndex : 'sectionName',
+	align : 'center'
+}, {
+	header : '是否审核',
+	dataIndex : 'isAuditing',
+	align : 'center'
+}, {
+	header : '修改时间',
+	dataIndex : 'updateTime',
+	width : 140,
+	align : 'center'
+}, {
+	header : '标签',
+	dataIndex : 'articleLabel',
+	width : 118,
+	align : 'center',
+	renderer : showTitle
+}, {
+	header : '精华',
+	dataIndex : 'isEssence',
+	align : 'center',
+	renderer : showEsss
+}, {
+	header : '置顶',
+	dataIndex : 'isTop',
+	align : 'center',
+	renderer : showTop
+}]);
+
+/**
+ *分页工具栏
+ */
+var gridPanelBBar = new Ext.PagingToolbar({
+	pageSize : pageSize,
+	store : store,
+	displayInfo : true
+});
+var gridPanel = new Ext.grid.GridPanel({
+	title : '版块文章',
+	renderTo : 'bottom',
+	autoScroll : true,
+	enableHdMenu : true,
+	enableColumnResize : true,
+	id : 'gridPanel',
+	trackMouseOver : true,
+	enableColumnHide : true,
+	columnLines : true,
+	margins : '0 5 5 5',
+	style : 'border:solid 6px #C6D8EA;',
+	header : true,
+	border : true,
+	draggable : false,
+	frame : true,
+	bbar : gridPanelBBar,
+	region : 'south',
+	height : 490,
+	cm : cm,
+	sm : sm,
+	store : store,
+	viewConfig : {
+		forceFit : true
+	},
+	columnLines : true
+});
+
+/**
+ * "置顶按钮事件"
+ * */
+function setTop() {
+	// var id = $("#articleId").text() ;
+	var id = $("#id").val();
+	// location =
+	// padUrl("/article/setOneTop.ao?method=setArticleOneTop&id="+id);
+	if (confirm("确定对该文章进行操作？")) {
+		var url = padUrl("/article/setTop.ao?method=setArticleTop" + "&id=" + id);
+		if (!ajaxRequest(url)) {
+									return false;
+								} else {
+									store.reload();
+				               Ext.getCmp("gridPanel").getStore().remove(records);
+									return true;
+								}
+//		$.post(url, function(json) {
+//			showJsonMessage(json);
+//			store.reload();
+//			Ext.getCmp("gridPanel").getStore().remove(records);
+//		}, 'json');
+	}
+}
+
+/**
+ * "精华"按钮事件
+ * */
+function changeEss() {
+	var ids = $("#id").val();
+	if (confirm("确定设置该文章为精华？")) {
+		var url = padUrl("/article/changeEss.ao?method=changeArticleEss" + "&ids=" + ids);
+		if (!ajaxRequest(url)) {
+									return false;
+								} else {
+									store.reload();
+				               Ext.getCmp("gridPanel").getStore().remove(records);
+									return true;
+								}
+//		$.post(url, function(json) {
+//			showJsonMessage(json);
+//			store.reload();
+//			Ext.getCmp("gridPanel").getStore().remove(records);
+//		}, 'json');
+	}
+}
+
+/**
+ * "删除"按钮方法
+ * */ 
+function deleteArticle() {
+	var ids = $("#id").val();
+	if (confirm("确定删除选中文章？")) {
+		var url = padUrl("/delArticleInfo.ao?method=deleteArticleInfo" + "&ids=" + ids);
+		if (!ajaxRequest(url)) {
+									return false;
+								} else {
+									store.reload();
+				               Ext.getCmp("gridPanel").getStore().remove(records);
+									return true;
+								}
+//		$.post(url, function(json) {
+//			showJsonMessage(json);
+//			store.reload();
+//			Ext.getCmp("gridPanel").getStore().remove(records);
+//		}, 'json');
+	}
+	goBack();
+}
+
+/**
+ *返回按钮方法 
+ * */
+function goBack() {
+	location = padUrl("/goToArticle.ao?method=toArticleMana");
+}
+
+/**
+ * "审核"按钮的方法
+ * */
+function autiding() {
+	var ids = $("#id").val();
+	if (confirm("确定审核选中的文章？")) {
+		var url = padUrl("/article/autiding.ao?method=autidingArticle" + "&ids=" + ids);
+		if (!ajaxRequest(url)) {
+									return false;
+								} else {
+									store.reload();
+				               Ext.getCmp("gridPanel").getStore().remove(records);
+									return true;
+									
+								}
+//		$.post(url, function(json) {
+//			showJsonMessage(json);
+//			store.reload();
+//			Ext.getCmp("gridPanel").getStore().remove(records);
+//		}, 'json');
+	}
+}
+
+/**
+ * 修改方法
+ * */
+function updateArticle() {
+	var id = $("#id").val();
+	if (confirm("确定修改选中文章？")) {
+		location = padUrl("/article/updateArticleInfo.ao?method=updateArticleInfo" + "&id=" + id);
+	}
+}
+
+/**
+ * 查询按钮的方法
+ * */
+function SectionOfArticle() {
+	$("#bottom").css("display", "block");
+	$("#top").css("display", "none");
+	var myMask = new Ext.LoadMask(Ext.getCmp("gridPanel").getEl(), {
+		msg : "正在加载数据，请稍候......"
+	}); 
+	myMask.show();
+	Ext.getCmp("gridPanel").getStore().removeAll();
+	Ext.getCmp("gridPanel").getStore().baseParams = {
+		"attribute(sectionId)" : $("#sectionId").val() }; 
+		var sm = new Ext.grid.CheckboxSelectionModel();
+		var cm = new Ext.grid.ColumnModel([
+			 sm,
+			   { header:'文章标题',dataIndex:'title',width:140,align:'center',renderer:showUrl},
+			   { header:'作者',dataIndex:'author',width:130,align:'center'},
+				{ header:'版块', dataIndex:'sectionName',align:'center'},
+				{ header:'是否审核', dataIndex:'isAuditing',align:'center'},  
+				{ header:'修改时间', dataIndex:'updateTime',width:140,align:'center'} ,  
+				{ header:'标签', dataIndex:'articleLabel',width:118,align:'center',renderer:showTitle} ,  
+				{ header:'精华', dataIndex:'isEssence',align:'center',renderer:showEsss} ,  
+				{ header:'置顶', dataIndex:'isTop',align:'center',renderer:showTop}  
+			]);  
+		
+	/**
+	 *分页工具栏
+	 */
+	var gridPanelBBar = new Ext.PagingToolbar({
+			pageSize : pageSize,
+			store : store,
+			displayInfo : true
+	}); 
+	var gridPanel = new Ext.grid.GridPanel({
+		     title:'版块文章',
+		     renderTo:'bottom',
+			  autoScroll : true,
+			  enableHdMenu : true,
+			  enableColumnResize : true,
+			  id : 'gridPanel',
+			  trackMouseOver : true,
+			  enableColumnHide : true, 
+			  columnLines : true,
+			  margins : '0 5 5 5',
+			  style : 'border:solid 6px #C6D8EA;', 
+			  header : true,
+			  border : true,
+			  draggable:false,
+			  frame:true, 
+			  bbar : gridPanelBBar, 
+			  region:'south', 
+			  height:490, 
+			  cm:cm ,
+			  sm:sm,
+			  store : store,
+			  viewConfig : {
+					forceFit : true
+				},
+				columnLines : true
+		  }) ;  
+		  
+/**
+ * "置顶按钮事件"
+ * */ 
+function setTop(){  
+			var id=$("#id").val(); 
+      	if (confirm("确定对该文章进行操作？")) {
+				var url =padUrl("/article/setTop.ao?method=setArticleTop" + "&id="
+						+ id);
+				if (!ajaxRequest(url)) {
+									return false;
+								} else {
+									store.reload();
+				               Ext.getCmp("gridPanel").getStore().remove(records);
+									return true;
+								}
+								}
+//				$.post(url, function(json) { 
+//					showJsonMessage(json); 
+//					store.reload();
+//					Ext.getCmp("gridPanel").getStore().remove(records);
+//				}, 'json');
+			}
+		 } 
+		 
+/**
+ * "精华"按钮事件
+ * */ 
+function changeEss(){
+		 	var ids=$("#id").val(); 
+			if (confirm("确定设置该文章为精华？")) {
+				var url =padUrl("/article/changeEss.ao?method=changeArticleEss" + "&ids="
+						+ ids);
+				// FIXME:ajax没有按照开发规范使用
+							if (!ajaxRequest(url)) {
+									return false;
+								} else {
+									store.reload();
+				               Ext.getCmp("gridPanel").getStore().remove(records);
+									return true;
+								}
+			}
+		}  
+		
+/**
+ * "删除"按钮方法
+ * */
+function deleteArticle(){
+	 	   var ids=$("#id").val();
+			if (confirm("确定删除选中文章？")) {
+				var url =padUrl("/delArticleInfo.ao?method=deleteArticleInfo" + "&ids="
+						+ ids);
+				if (!ajaxRequest(url)) {
+									return false;
+								} else {
+									store.reload();
+				               Ext.getCmp("gridPanel").getStore().remove(records);
+									return true;
+								}
+			} 
+		goBack();
+		} 
+	
+/**
+ * 返回按钮方法
+ * */
+function goBack(){ 
+	  location=padUrl("/goToArticle.ao?method=toArticleMana");
+	}
+	
+/**
+ * "审核"按钮的方法
+ * */
+function autiding(){
+		  var ids=$("#id").val();
+			if (confirm("确定审核选中的文章？")) {
+				var url =padUrl("/article/autiding.ao?method=autidingArticle" + "&ids="
+						+ ids);
+				$.post(url, function(json) { 
+					showJsonMessage(json); 
+					store.reload();
+					Ext.getCmp("gridPanel").getStore().remove(records);
+				}, 'json');
+			}
+		} 
+		
+/**
+ * 修改方法
+ * */
+function updateArticle(){
+	 	   var id=$("#id").val();
+			if (confirm("确定修改选中文章？")) {
+				location = padUrl("/article/updateArticleInfo.ao?method=updateArticleInfo" + "&id="
+						+ id);
+			}  
+ }
+ 
+/**
+ * 查询按钮的方法
+ * */
+function SectionOfArticle(){  
+		$("#bottom").css("display","block");
+		$("#top").css("display","none");
+			var myMask = new Ext.LoadMask(Ext.getCmp("gridPanel").getEl(),{
+			  msg:"正在加载数据，请稍候......"
+			});
+			myMask.show();
+			Ext.getCmp("gridPanel").getStore().removeAll();
+			Ext.getCmp("gridPanel").getStore().baseParams = {
+			 "attribute(sectionId)" : $("#sectionId").val() 
+			// "attribute(title)" : $("#title").val(),
+			// "attribute(sectionName)":$("#sectionName").val()
+	};
+	Ext.getCmp("gridPanel").getStore().load({
+
+		callback : function(o, reps, success) {
+			myMask.hide();
+		}
+	});
+}
+
+/**
+ * 显示文章详细信息
+ * */
+function showDetail() {
+	var selModel = Ext.getCmp("gridPanel").getSelectionModel();
+	var Id = selModel.getSelected().get("id");
+	location = padUrl("/article/articleDetailInfo.ao?method=showArticleDetail&articleId=" + Id);
+
+}

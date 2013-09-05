@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+		"http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+
+	<!-- ======================================== Form Bean Definitions -->
+
+	<form-beans>
+		<form-bean name="baseCustomerTypesForm" type="com.berheley.hcms.web.form.BaseCustomerTypesForm" />
+		<form-bean name="userForm"    type="com.zoomkey.internship.web.form.UserForm"></form-bean>
+		<form-bean name="sectionForm" type="com.zoomkey.internship.web.form.SectionForm"></form-bean>
+	</form-beans>
+
+	<!-- ================================= Global Exception Definitions -->
+
+	<global-exceptions>
+
+
+
+	</global-exceptions>
+	<!-- =================================== Global Forward Definitions -->
+	<!-- modified by Wang Cheng 2011-1-26 [ZKP-115] begin -->
+	<global-forwards>
+		<forward name="fail" path="/jsp/common/500_2.jsp"></forward>
+	</global-forwards>
+	<!-- [ZKP-115] end -->
+
+
+
+	<!-- =================================== Action Mapping Definitions -->
+   
+	<action-mappings>
+	  
+		<action path="/login" name="userForm" scope="request" parameter="method"
+		type="com.zoomkey.internship.web.action.UserAction" validate="false">
+		<description>登录</description>
+		<forward name="success" path="/index.jsp"></forward> 
+		</action>
+		<action path="/user/logout" name="userForm" scope="request" parameter="method"
+		type="com.zoomkey.internship.web.action.UserAction" validate="false">
+		<description>退出登录</description>
+		<forward name="success" path="/index.jsp"></forward> 
+		</action>
+	 
+		<action path="/register" name="userForm" scope="request" parameter="method"
+		type="com.zoomkey.internship.web.action.RegisterAction" validate="false"> 
+		<description>注册</description>
+		<forward name="error" path="/jsp/user/userManagement.jsp"></forward>
+		</action>
+		 
+		<action path="/ajax" name="userForm" scope="request" parameter="method"
+		type="com.zoomkey.internship.web.action.RegisterAction" validate="false">
+		<description>ajax验证用户名是否可用</description>
+		<forward name="success" path="/jsp/user/login.jsp"></forward>
+		</action>
+		 
+		<action path="/goUser"  scope="request" parameter="method"
+		type="com.zoomkey.internship.web.action.GoUserAction" validate="false">
+		<description>页面跳转</description>
+		<forward name="success" path="/jsp/user/userManagement.jsp"></forward>
+		</action>
+		
+		<action path="/readMsg" name="userForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.UserAction" validate="false">
+		<description>用户信息查询</description>
+			<forward name="success" path="/jsp/manager/Menu.jsp"></forward>
+			<forward name="list" path="/jsp/user/userManagement.jsp"></forward>
+		</action>
+		
+		<action path="/user/goToUserCenter" name="userForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.UserAction" validate="false">
+		<description>点击用户名进入客户中心</description>
+			<forward name="success" path="/jsp/user/userCenter.jsp"></forward>
+		</action>
+		<action path="/user/UserCenter" name="userForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.UserAction" validate="false">
+		<description>进入客户中心</description>
+			<forward name="success" path="/jsp/user/userCenter.jsp"></forward>
+		</action>
+		
+		<action path="/user/updateInfo" name="userForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.UserAction" validate="false">
+		<description>修改客户信息</description>
+			<forward name="success" path="/jsp/user/userInfo.jsp"></forward>
+		</action> 
+		<action path="/shield" name="userForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.UserAction" validate="false">
+		<description>屏蔽用户</description>
+			<forward name="success" path="/readMsg.ao?method=getInfo"></forward> 
+		</action>
+		<action path="/getSectionName" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.SectionAction" validate="false">
+		<description>获得版块名称下拉</description>
+			<forward name="success" path="/jsp/user/userManagement.jsp"></forward> 
+		</action>
+		<action path="/section/moderator" name="sectionForm" scope="request" parameter="method" type="com.zoomkey.internship.web.action.SectionAction" validate="false">
+		<description>提升为版主</description>
+			<forward name="success" path="/jsp/user/userManagement.jsp"></forward> 
+		</action>
+		
+		 
+ 
+			
+		
+	</action-mappings>
+	
+	<message-resources
+		parameter="com.zoomkey.resources.ApplicationResource" />
+		
+		
+</struts-config>
+
